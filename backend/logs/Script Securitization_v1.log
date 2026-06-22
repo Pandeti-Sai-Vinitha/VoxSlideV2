@@ -1,0 +1,193 @@
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 🚀 GENERATION STARTED: Script Securitization_v1
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📄 Document: Script Securitization.docx (id=61eba18c-b6b0-4518-b855-e1e6d6acbb8b)
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📣 Generate request settings: mode='video', voice='en-US-EricNeural', persona='trainee', slides=3
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 🚀 Background pipeline started
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📢 Using voice: en-US-EricNeural
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 🎯 Using persona: trainee
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📊 Generating 3 slides
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📌 Domain: None
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 🎨 Using template: template.potx
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - 📌 Output folder: projects\Script Securitization\v1
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Generating slides...
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - STARTING HIERARCHICAL SLIDE GENERATION: Script Securitization_v1
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Input file: uploads\Script Securitization.docx
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Persona: trainee
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Target slides: 3
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Pipeline: HIERARCHICAL (forced mode)
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - HIERARCHICAL PIPELINE: STARTING
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Cache manager initialized
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Azure LLM wrapper initialized
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - File type: docx
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - PHASE 1: EXTRACTING HIERARCHICAL STRUCTURE
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - Using DOCX extracted images folder: C:\Users\2000166070\PycharmProjects\VoxSlide - Copy\backend\extracted_images_docx\Script Securitization\v1
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO -   ✓ Extracted 36 blocks
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO -   ✓ Extracted 0 images
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO -   ✓ Hierarchy depth: 8 sections
+2026-06-11 13:36:31 - Script Securitization_v1 - INFO - PHASE 2: SEMANTIC CHUNKING
+2026-06-11 13:36:32 - Script Securitization_v1 - INFO -   ✓ Created 1 semantic chunks
+2026-06-11 13:36:32 - Script Securitization_v1 - INFO - PHASE 3: CHUNK SUMMARIZATION (parallel)
+2026-06-11 13:36:32 - Script Securitization_v1 - DEBUG - Summarizing chunk: chunk_0
+2026-06-11 13:36:48 - Script Securitization_v1 - DEBUG -   ✓ Chunk chunk_0 summarized (78 tokens)
+2026-06-11 13:36:48 - Script Securitization_v1 - INFO -   Progress: 1/1 chunks summarized
+2026-06-11 13:36:48 - Script Securitization_v1 - INFO -   ✓ All 1 chunks summarized
+2026-06-11 13:36:48 - Script Securitization_v1 - INFO - PHASE 4: SECTION SUMMARIZATION
+2026-06-11 13:36:48 - Script Securitization_v1 - DEBUG - Summarizing section: Basics of Securitization
+2026-06-11 13:37:04 - Script Securitization_v1 - DEBUG -   ✓ Section 'Basics of Securitization' summarized
+2026-06-11 13:37:04 - Script Securitization_v1 - INFO -   ✓ All 1 sections summarized
+2026-06-11 13:37:04 - Script Securitization_v1 - INFO - PHASE 5: GLOBAL DOCUMENT SUMMARIZATION
+2026-06-11 13:37:27 - Script Securitization_v1 - INFO -   ✓ Global summary created (272 tokens)
+2026-06-11 13:37:27 - Script Securitization_v1 - INFO - PHASE 6: SLIDE PLANNING
+2026-06-11 13:37:39 - Script Securitization_v1 - INFO -   ✓ Planned 3 slides (target: 3)
+2026-06-11 13:37:39 - Script Securitization_v1 - INFO - PHASE 7: BUILDING RAG INDEX
+2026-06-11 13:37:41 - Script Securitization_v1 - INFO -   ✓ RAG index built with 1 chunks and 1 sections
+2026-06-11 13:37:41 - Script Securitization_v1 - INFO - PHASE 8: INITIALIZING CONTEXT OPTIMIZER
+2026-06-11 13:37:41 - Script Securitization_v1 - INFO -   ✓ Context optimizer initialized (max_tokens=3000)
+2026-06-11 13:37:41 - Script Securitization_v1 - INFO - PHASE 9: GENERATING SLIDES (parallel)
+2026-06-11 13:37:41 - Script Securitization_v1 - DEBUG - Generating slide 1: Viewers should understand the basic concept of securitization, how residential mortgage loans are pooled and transformed into Mortgage-Backed Securities (MBS), and the role of Government-Sponsored Enterprises (GSEs).
+2026-06-11 13:37:41 - Script Securitization_v1 - DEBUG - Generating slide 2: Viewers should understand the financial engineering techniques used to optimize yields and manage risks, including payment mechanisms, guarantee fee adjustments, and re-securitization into CMOs and REMICs.
+2026-06-11 13:37:41 - Script Securitization_v1 - DEBUG - Generating slide 3: Viewers should grasp how securitization enhances liquidity, supports capital efficiency, and ultimately promotes homeownership by converting illiquid mortgage assets into marketable securities.
+2026-06-11 13:37:50 - Script Securitization_v1 - DEBUG -   ✓ Slide 1 generated (60 tokens)
+2026-06-11 13:37:50 - Script Securitization_v1 - INFO -   Progress: 1/3 slides generated
+2026-06-11 13:37:54 - Script Securitization_v1 - DEBUG -   ✓ Slide 2 generated (244 tokens)
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   Progress: 2/3 slides generated
+2026-06-11 13:37:54 - Script Securitization_v1 - DEBUG -   ✓ Slide 3 generated (247 tokens)
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   Progress: 3/3 slides generated
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✓ All 3 slides generated and ordered
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - PHASE 10: DEDUPLICATING IMAGES ACROSS SLIDES
+2026-06-11 13:37:54 - Script Securitization_v1 - DEBUG -   Slide 1: No image
+2026-06-11 13:37:54 - Script Securitization_v1 - DEBUG -   Slide 2: No image
+2026-06-11 13:37:54 - Script Securitization_v1 - DEBUG -   Slide 3: No image
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✅ Image deduplication complete: 0 duplicates removed
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✅ Image distribution: 0 unique images in 0 slides
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✓ Image distribution deduplicated - each image used at most once
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - PHASE 11: DISTRIBUTING UNUSED IMAGES
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✓ All available images distributed to slides
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - PHASE 12: VALIDATING AND FIXING SLIDE CONTENT
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - Saving voice_name to slides.json: en-US-EricNeural
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✓ Slides validated and fixed: 0 slides updated
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - PHASE 13: RELOADING FIXED SLIDES
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   ✓ Slides saved to: projects\Script Securitization\v1\slides.json
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - HIERARCHICAL PIPELINE: COMPLETED SUCCESSFULLY
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   Total slides: 3
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO -   Total tokens used: 350
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - SLIDE GENERATION COMPLETED SUCCESSFULLY
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - Total tokens used: 350
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - Slides output: projects\Script Securitization\v1\slides.json
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - ✅ Slides generated successfully
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - Mode: 'video' -> video; Voice: 'en-US-EricNeural'
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - STEP 2: GENERATING VOICEOVERS AND QUIZ FOR VIDEO MODE
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - Voice: en-US-EricNeural
+2026-06-11 13:37:54 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:15 - Script Securitization_v1 - INFO - Generating voiceovers for 3 slides...
+2026-06-11 13:39:15 - Script Securitization_v1 - INFO -   Slide 1: Generating audio with voice en-US-EricNeural...
+2026-06-11 13:39:18 - Script Securitization_v1 - INFO -     ✓ Audio created: Introduction to Securitization and Mortgage-Backed Securities
+2026-06-11 13:39:18 - Script Securitization_v1 - INFO -   Slide 2: Generating audio with voice en-US-EricNeural...
+2026-06-11 13:39:23 - Script Securitization_v1 - INFO -     ✓ Audio created: Financial Engineering and Advanced Securitization Structures
+2026-06-11 13:39:23 - Script Securitization_v1 - INFO -   Slide 3: Generating audio with voice en-US-EricNeural...
+2026-06-11 13:39:28 - Script Securitization_v1 - INFO -     ✓ Audio created: Conclusion: Impact of Securitization on Liquidity and Homeownership
+2026-06-11 13:39:28 - Script Securitization_v1 - INFO - Generating quiz for slides...
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO -     ✓ Quiz created: projects\Script Securitization\v1\quiz.json
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - ✅ Voiceovers and quiz generated successfully
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - STEP 3: CREATING PPT FROM SLIDES
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - Using images folder: extracted_images_docx\Script Securitization\v1
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - ✅ PPT created successfully: projects\Script Securitization\v1\Script Securitization_v1.pptx
+2026-06-11 13:39:36 - Script Securitization_v1 - INFO - 📸 Generating slide images from PPT...
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - ✅ Generated 3 slide images
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - ✅ Pipeline completed successfully (slides + PPT ready)
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - ✅ Pipeline completed successfully - awaiting user to process
+2026-06-11 13:39:43 - Script Securitization_v1 - INFO - 📺 Output type set to: pptx+video
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - Starting media generation for Script Securitization_v1
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ENSURING QUIZ EXISTS
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ✅ Quiz already exists: projects\Script Securitization\v1\quiz.json
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - VERIFYING VOICEOVERS
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ✅ Found 3 audio files, using existing voiceovers
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - (Audio was already generated during initial pipeline with selected voice)
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ============================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - Creating PowerPoint and Video...
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - STARTING MEDIA CREATION FOR: Script Securitization_v1
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ✅ VIDEO will be created from PPT-exported images (matches PPT preview exactly)
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - 
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - Loading slides from projects\Script Securitization\v1\slides.json
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   ✓ Loaded 3 slides from slides.json
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -     Slide 1: Introduction to Securitization and Mortgage-Backed Securities
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Content type: title
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Has image: False
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Voiceover length: 62 chars
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -     Slide 2: Financial Engineering and Advanced Securitization Structures
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Content type: bullets
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Has image: False
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Voiceover length: 665 chars
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -     Slide 3: Conclusion: Impact of Securitization on Liquidity and Homeownership
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Content type: bullets
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Has image: False
+2026-06-11 13:39:47 - Script Securitization_v1 - DEBUG -       - Voiceover length: 658 chars
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ------------------------------------------------------------
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - PHASE 2: GENERATING VOICEOVERS
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ------------------------------------------------------------
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - Creating audio narration for 3 slides...
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   [1/3] Audio already exists, skipping: projects\Script Securitization\v1\audio\slide_1.mp3
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   [2/3] Audio already exists, skipping: projects\Script Securitization\v1\audio\slide_2.mp3
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   [3/3] Audio already exists, skipping: projects\Script Securitization\v1\audio\slide_3.mp3
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   ✓ All 3 voiceovers created or skipped
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ------------------------------------------------------------
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - PHASE 3: CREATING POWERPOINT PRESENTATION
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - ------------------------------------------------------------
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO - Creating PowerPoint presentation: projects\Script Securitization\v1\Script Securitization_v1.pptx
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   ✓ Using template: template.potx
+2026-06-11 13:39:47 - Script Securitization_v1 - INFO -   ✓ Found extracted images folder: extracted_images_docx\Script Securitization\v1
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO -   ✓ PowerPoint presentation created successfully
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO - PHASE 4: EXPORTING SLIDES AS IMAGES FROM PPT
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO - Converting PowerPoint to images: projects\Script Securitization\v1\slides_images
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO - ⚠️  IMPORTANT: These images are exported from the rendered PPT
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO -    Video will be created from these exported images
+2026-06-11 13:39:48 - Script Securitization_v1 - INFO -    This ensures video content matches PPT preview exactly
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO -   ✓ Exported 3 slide images from PPT
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO -   ✓ Image count matches slide count (3 == 3)
+2026-06-11 13:39:53 - Script Securitization_v1 - DEBUG -     Image 1: Slide1.JPG
+2026-06-11 13:39:53 - Script Securitization_v1 - DEBUG -     Image 2: Slide2.JPG
+2026-06-11 13:39:53 - Script Securitization_v1 - DEBUG -     Image 3: Slide3.JPG
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO - PHASE 5: CREATING VIDEO FROM PPT IMAGES
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO - Creating video with synced audio: projects\Script Securitization\v1\Script Securitization_v1.mp4
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO -   Source: 3 images exported from PPT
+2026-06-11 13:39:53 - Script Securitization_v1 - INFO -   Audio: 3 voiceovers from slides.json
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   ✓ Video created successfully
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - 
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - MEDIA CREATION COMPLETED FOR: Script Securitization_v1
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - ================================================================================
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - Summary:
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Slides in slides.json: 3
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Images exported from PPT: 3
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Voiceovers created: 3
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - 
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - Output files:
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - PowerPoint: projects\Script Securitization\v1\Script Securitization_v1.pptx
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Video: projects\Script Securitization\v1\Script Securitization_v1.mp4 (FROM PPT-EXPORTED IMAGES)
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Audio folder: projects\Script Securitization\v1\audio (3 files)
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO -   - Images folder: projects\Script Securitization\v1\slides_images (3 files)
+2026-06-11 13:40:53 - Script Securitization_v1 - INFO - ================================================================================

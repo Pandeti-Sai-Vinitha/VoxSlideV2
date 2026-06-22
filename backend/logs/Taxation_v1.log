@@ -1,0 +1,302 @@
+2026-06-22 11:20:53 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 🚀 GENERATION STARTED: Taxation_v1
+2026-06-22 11:20:53 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📄 Document: Taxation.docx (id=f59c91d8-3d1c-4f30-ae0c-ec41f39d4929)
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📣 Generate request settings: mode='video', voice='en-US-ElizabethNeural', persona='trainee', slides=11
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 🚀 Background pipeline started
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📢 Using voice: en-US-ElizabethNeural
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 🎯 Using persona: trainee
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📊 Generating 11 slides
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📌 Domain: None
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 🎨 Using template: template4.potx
+2026-06-22 11:20:53 - Taxation_v1 - INFO - 📌 Output folder: projects\Taxation\v1
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Generating slides...
+2026-06-22 11:20:53 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:20:53 - Taxation_v1 - INFO - STARTING HIERARCHICAL SLIDE GENERATION: Taxation_v1
+2026-06-22 11:20:53 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Input file: uploads\Taxation.docx
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Persona: trainee
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Target slides: 11
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Pipeline: HIERARCHICAL (forced mode)
+2026-06-22 11:20:53 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:20:53 - Taxation_v1 - INFO - HIERARCHICAL PIPELINE: STARTING
+2026-06-22 11:20:53 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Cache manager initialized
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Azure LLM wrapper initialized
+2026-06-22 11:20:53 - Taxation_v1 - INFO - File type: docx
+2026-06-22 11:20:53 - Taxation_v1 - INFO - PHASE 1: EXTRACTING HIERARCHICAL STRUCTURE
+2026-06-22 11:20:53 - Taxation_v1 - INFO - Using DOCX extracted images folder: C:\Users\2000166070\PycharmProjects\VoxSlide - Copy\backend\extracted_images_docx\Taxation\v1
+2026-06-22 11:20:53 - Taxation_v1 - INFO -   ✓ Extracted 43 blocks
+2026-06-22 11:20:53 - Taxation_v1 - INFO -   ✓ Extracted 0 images
+2026-06-22 11:20:53 - Taxation_v1 - INFO -   ✓ Hierarchy depth: 6 sections
+2026-06-22 11:20:53 - Taxation_v1 - INFO - PHASE 2: SEMANTIC CHUNKING
+2026-06-22 11:20:53 - Taxation_v1 - INFO -   ✓ Created 1 semantic chunks
+2026-06-22 11:20:53 - Taxation_v1 - INFO - PHASE 3: CHUNK SUMMARIZATION (parallel)
+2026-06-22 11:20:53 - Taxation_v1 - DEBUG - Summarizing chunk: chunk_0
+2026-06-22 11:21:07 - Taxation_v1 - DEBUG -   ✓ Chunk chunk_0 summarized (89 tokens)
+2026-06-22 11:21:07 - Taxation_v1 - INFO -   Progress: 1/1 chunks summarized
+2026-06-22 11:21:07 - Taxation_v1 - INFO -   ✓ All 1 chunks summarized
+2026-06-22 11:21:07 - Taxation_v1 - INFO - PHASE 4: SECTION SUMMARIZATION
+2026-06-22 11:21:07 - Taxation_v1 - DEBUG - Summarizing section: Tax Structure
+2026-06-22 11:21:21 - Taxation_v1 - DEBUG -   ✓ Section 'Tax Structure' summarized
+2026-06-22 11:21:21 - Taxation_v1 - INFO -   ✓ All 1 sections summarized
+2026-06-22 11:21:21 - Taxation_v1 - INFO - PHASE 5: GLOBAL DOCUMENT SUMMARIZATION
+2026-06-22 11:21:32 - Taxation_v1 - INFO -   ✓ Global summary created (265 tokens)
+2026-06-22 11:21:32 - Taxation_v1 - INFO - PHASE 6: SLIDE PLANNING
+2026-06-22 11:21:45 - Taxation_v1 - INFO -   ✓ Planned 11 slides (target: 11)
+2026-06-22 11:21:45 - Taxation_v1 - INFO - PHASE 7: BUILDING RAG INDEX
+2026-06-22 11:21:46 - Taxation_v1 - INFO -   ✓ RAG index built with 1 chunks and 1 sections
+2026-06-22 11:21:46 - Taxation_v1 - INFO - PHASE 8: INITIALIZING CONTEXT OPTIMIZER
+2026-06-22 11:21:46 - Taxation_v1 - INFO -   ✓ Context optimizer initialized (max_tokens=3000)
+2026-06-22 11:21:46 - Taxation_v1 - INFO - PHASE 9: GENERATING SLIDES (parallel)
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 1: Introduce the complexities of US fund taxation and set the stage for detailed discussion.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 2: Explain the basic US fund tax framework focusing on flow-through taxation for partnership funds.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 3: Describe partnership tax reporting requirements and limitations on expense deductibility.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 4: Detail specialized tax rules applicable to Passive Foreign Investment Companies and Controlled Foreign Corporations.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 5: Summarize tax structure topics and introduce challenges faced by tax-exempt investors.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 6: Explain UBTI and why it poses challenges for tax-exempt investors in partnership funds.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 7: Discuss how blocker corporations are used to reduce UBTI exposure and other tax liabilities for tax-exempt investors.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 8: Highlight additional tax considerations including state, local, and foreign taxes affecting investors.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 9: Describe available relief options such as tax treaties and foreign tax credits to mitigate double taxation.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 10: Recap main points covering tax structure, investor challenges, and mitigation strategies.
+2026-06-22 11:21:46 - Taxation_v1 - DEBUG - Generating slide 11: Conclude the presentation and suggest further considerations or actions for stakeholders.
+2026-06-22 11:21:58 - Taxation_v1 - DEBUG -   ✓ Slide 1 generated (50 tokens)
+2026-06-22 11:21:58 - Taxation_v1 - INFO -   Progress: 1/11 slides generated
+2026-06-22 11:22:01 - Taxation_v1 - DEBUG -   ✓ Slide 3 generated (214 tokens)
+2026-06-22 11:22:01 - Taxation_v1 - INFO -   Progress: 2/11 slides generated
+2026-06-22 11:22:01 - Taxation_v1 - DEBUG -   ✓ Slide 2 generated (260 tokens)
+2026-06-22 11:22:01 - Taxation_v1 - INFO -   Progress: 3/11 slides generated
+2026-06-22 11:22:02 - Taxation_v1 - DEBUG -   ✓ Slide 8 generated (225 tokens)
+2026-06-22 11:22:02 - Taxation_v1 - INFO -   Progress: 4/11 slides generated
+2026-06-22 11:22:02 - Taxation_v1 - DEBUG -   ✓ Slide 4 generated (236 tokens)
+2026-06-22 11:22:02 - Taxation_v1 - INFO -   Progress: 5/11 slides generated
+2026-06-22 11:22:03 - Taxation_v1 - DEBUG -   ✓ Slide 6 generated (316 tokens)
+2026-06-22 11:22:03 - Taxation_v1 - INFO -   Progress: 6/11 slides generated
+2026-06-22 11:22:03 - Taxation_v1 - DEBUG -   ✓ Slide 7 generated (208 tokens)
+2026-06-22 11:22:03 - Taxation_v1 - INFO -   Progress: 7/11 slides generated
+2026-06-22 11:22:03 - Taxation_v1 - DEBUG -   ✓ Slide 5 generated (239 tokens)
+2026-06-22 11:22:03 - Taxation_v1 - INFO -   Progress: 8/11 slides generated
+2026-06-22 11:22:03 - Taxation_v1 - DEBUG -   ✓ Slide 9 generated (221 tokens)
+2026-06-22 11:22:03 - Taxation_v1 - INFO -   Progress: 9/11 slides generated
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   ✓ Slide 10 generated (256 tokens)
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   Progress: 10/11 slides generated
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   ✓ Slide 11 generated (181 tokens)
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   Progress: 11/11 slides generated
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✓ All 11 slides generated and ordered
+2026-06-22 11:22:04 - Taxation_v1 - INFO - PHASE 10: DEDUPLICATING IMAGES ACROSS SLIDES
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 1: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 2: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 3: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 4: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 5: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 6: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 7: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 8: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 9: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 10: No image
+2026-06-22 11:22:04 - Taxation_v1 - DEBUG -   Slide 11: No image
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✅ Image deduplication complete: 0 duplicates removed
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✅ Image distribution: 0 unique images in 0 slides
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✓ Image distribution deduplicated - each image used at most once
+2026-06-22 11:22:04 - Taxation_v1 - INFO - PHASE 11: DISTRIBUTING UNUSED IMAGES
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✓ All available images distributed to slides
+2026-06-22 11:22:04 - Taxation_v1 - INFO - PHASE 12: VALIDATING AND FIXING SLIDE CONTENT
+2026-06-22 11:22:04 - Taxation_v1 - INFO - Saving voice_name to slides.json: en-US-ElizabethNeural
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✓ Slides validated and fixed: 0 slides updated
+2026-06-22 11:22:04 - Taxation_v1 - INFO - PHASE 13: RELOADING FIXED SLIDES
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   ✓ Slides saved to: projects\Taxation\v1\slides.json
+2026-06-22 11:22:04 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:22:04 - Taxation_v1 - INFO - HIERARCHICAL PIPELINE: COMPLETED SUCCESSFULLY
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   Total slides: 11
+2026-06-22 11:22:04 - Taxation_v1 - INFO -   Total tokens used: 354
+2026-06-22 11:22:04 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:22:04 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:22:04 - Taxation_v1 - INFO - SLIDE GENERATION COMPLETED SUCCESSFULLY
+2026-06-22 11:22:04 - Taxation_v1 - INFO - Total tokens used: 354
+2026-06-22 11:22:04 - Taxation_v1 - INFO - Slides output: projects\Taxation\v1\slides.json
+2026-06-22 11:22:04 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:22:04 - Taxation_v1 - INFO - ✅ Slides generated successfully
+2026-06-22 11:22:04 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:22:04 - Taxation_v1 - INFO - Mode: 'video' -> video; Voice: 'en-US-ElizabethNeural'
+2026-06-22 11:22:04 - Taxation_v1 - INFO - STEP 2: GENERATING VOICEOVERS AND QUIZ FOR VIDEO MODE
+2026-06-22 11:22:04 - Taxation_v1 - INFO - Voice: en-US-ElizabethNeural
+2026-06-22 11:22:04 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:23:07 - Taxation_v1 - INFO - Generating voiceovers for 11 slides...
+2026-06-22 11:23:07 - Taxation_v1 - INFO -   Slide 1: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:12 - Taxation_v1 - INFO -     ✓ Audio created: US Fund Taxation: An Overview
+2026-06-22 11:23:12 - Taxation_v1 - INFO -   Slide 2: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:17 - Taxation_v1 - INFO -     ✓ Audio created: US Fund Tax Structure and Flow-Through Taxation
+2026-06-22 11:23:17 - Taxation_v1 - INFO -   Slide 3: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:21 - Taxation_v1 - INFO -     ✓ Audio created: Partnership Reporting and Expense Deductibility Limitations
+2026-06-22 11:23:21 - Taxation_v1 - INFO -   Slide 4: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:26 - Taxation_v1 - INFO -     ✓ Audio created: Special Tax Rules for Foreign Investments: PFICs and CFCs
+2026-06-22 11:23:26 - Taxation_v1 - INFO -   Slide 5: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:31 - Taxation_v1 - INFO -     ✓ Audio created: Transition: From Tax Structure to Tax-Exempt Investor Challenges
+2026-06-22 11:23:31 - Taxation_v1 - INFO -   Slide 6: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:36 - Taxation_v1 - INFO -     ✓ Audio created: Tax-Exempt Investors and Unrelated Business Taxable Income (UBTI)
+2026-06-22 11:23:36 - Taxation_v1 - INFO -   Slide 7: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:40 - Taxation_v1 - INFO -     ✓ Audio created: Mitigating Tax Liabilities: Use of Blocker Corporations
+2026-06-22 11:23:40 - Taxation_v1 - INFO -   Slide 8: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:44 - Taxation_v1 - INFO -     ✓ Audio created: Impact of State, Local, and Foreign Taxes on Investors
+2026-06-22 11:23:44 - Taxation_v1 - INFO -   Slide 9: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:23:51 - Taxation_v1 - INFO -     ✓ Audio created: Tax Relief Mechanisms: Treaties and Foreign Tax Credits
+2026-06-22 11:23:51 - Taxation_v1 - INFO -   Slide 10: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:24:01 - Taxation_v1 - INFO -     ✓ Audio created: Summary: Key Takeaways on US Fund Taxation and Investor Strategies
+2026-06-22 11:24:01 - Taxation_v1 - INFO -   Slide 11: Generating audio with voice en-US-ElizabethNeural...
+2026-06-22 11:24:06 - Taxation_v1 - INFO -     ✓ Audio created: Conclusion and Next Steps
+2026-06-22 11:24:06 - Taxation_v1 - INFO - Generating quiz for slides...
+2026-06-22 11:24:14 - Taxation_v1 - INFO -     ✓ Quiz created: projects\Taxation\v1\quiz.json
+2026-06-22 11:24:14 - Taxation_v1 - INFO - ✅ Voiceovers and quiz generated successfully
+2026-06-22 11:24:14 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:24:14 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:24:14 - Taxation_v1 - INFO - STEP 3: CREATING PPT FROM SLIDES
+2026-06-22 11:24:14 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:24:14 - Taxation_v1 - INFO - Using images folder: extracted_images_docx\Taxation\v1
+2026-06-22 11:24:15 - Taxation_v1 - INFO - ✅ PPT created successfully: projects\Taxation\v1\Taxation_v1.pptx
+2026-06-22 11:24:15 - Taxation_v1 - INFO - 📸 Generating slide images from PPT...
+2026-06-22 11:24:19 - Taxation_v1 - INFO - ✅ Generated 23 slide images
+2026-06-22 11:24:19 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:24:19 - Taxation_v1 - INFO - ✅ Pipeline completed successfully (slides + PPT ready)
+2026-06-22 11:24:19 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:24:19 - Taxation_v1 - INFO - ✅ Pipeline completed successfully - awaiting user to process
+2026-06-22 11:24:19 - Taxation_v1 - INFO - 📺 Output type set to: pptx+video
+2026-06-22 11:25:30 - Taxation_v1 - INFO - Starting media generation for Taxation_v1
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ENSURING QUIZ EXISTS
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ✅ Quiz already exists: projects\Taxation\v1\quiz.json
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - VERIFYING VOICEOVERS
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ✅ Found 11 audio files, using existing voiceovers
+2026-06-22 11:25:30 - Taxation_v1 - INFO - (Audio was already generated during initial pipeline with selected voice)
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ============================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - Creating PowerPoint and Video...
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - STARTING MEDIA CREATION FOR: Taxation_v1
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ✅ VIDEO will be created from PPT-exported images (matches PPT preview exactly)
+2026-06-22 11:25:30 - Taxation_v1 - INFO - 
+2026-06-22 11:25:30 - Taxation_v1 - INFO - Loading slides from projects\Taxation\v1\slides.json
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   ✓ Loaded 11 slides from slides.json
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 1: US Fund Taxation: An Overview
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: title
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 30 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 2: US Fund Tax Structure and Flow-Through Taxation
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 667 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 3: Partnership Reporting and Expense Deductibility Limitations
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 508 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 4: Special Tax Rules for Foreign Investments: PFICs and CFCs
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 547 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 5: Transition: From Tax Structure to Tax-Exempt Investor Challenges
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 541 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 6: Tax-Exempt Investors and Unrelated Business Taxable Income (UBTI)
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 757 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 7: Mitigating Tax Liabilities: Use of Blocker Corporations
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 522 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 8: Impact of State, Local, and Foreign Taxes on Investors
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 554 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 9: Tax Relief Mechanisms: Treaties and Foreign Tax Credits
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 499 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 10: Summary: Key Takeaways on US Fund Taxation and Investor Strategies
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 661 chars
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -     Slide 11: Conclusion and Next Steps
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Content type: bullets
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Has image: False
+2026-06-22 11:25:30 - Taxation_v1 - DEBUG -       - Voiceover length: 448 chars
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ------------------------------------------------------------
+2026-06-22 11:25:30 - Taxation_v1 - INFO - PHASE 2: GENERATING VOICEOVERS
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ------------------------------------------------------------
+2026-06-22 11:25:30 - Taxation_v1 - INFO - Creating audio narration for 11 slides...
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [1/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_1.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [2/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_2.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [3/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_3.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [4/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_4.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [5/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_5.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [6/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_6.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [7/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_7.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [8/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_8.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [9/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_9.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [10/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_10.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   [11/11] Audio already exists, skipping: projects\Taxation\v1\audio\slide_11.mp3
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   ✓ All 11 voiceovers created or skipped
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ------------------------------------------------------------
+2026-06-22 11:25:30 - Taxation_v1 - INFO - PHASE 3: CREATING POWERPOINT PRESENTATION
+2026-06-22 11:25:30 - Taxation_v1 - INFO - ------------------------------------------------------------
+2026-06-22 11:25:30 - Taxation_v1 - INFO - Creating PowerPoint presentation: projects\Taxation\v1\Taxation_v1.pptx
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   ✓ Using template: template4.potx
+2026-06-22 11:25:30 - Taxation_v1 - INFO -   ✓ Found extracted images folder: extracted_images_docx\Taxation\v1
+2026-06-22 11:25:32 - Taxation_v1 - INFO -   ✓ PowerPoint presentation created successfully
+2026-06-22 11:25:32 - Taxation_v1 - INFO - PHASE 4: EXPORTING SLIDES AS IMAGES FROM PPT
+2026-06-22 11:25:32 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:25:32 - Taxation_v1 - INFO - Converting PowerPoint to images: projects\Taxation\v1\slides_images
+2026-06-22 11:25:32 - Taxation_v1 - INFO - ⚠️  IMPORTANT: These images are exported from the rendered PPT
+2026-06-22 11:25:32 - Taxation_v1 - INFO -    Video will be created from these exported images
+2026-06-22 11:25:32 - Taxation_v1 - INFO -    This ensures video content matches PPT preview exactly
+2026-06-22 11:25:38 - Taxation_v1 - INFO -   ✓ Exported 23 slide images from PPT
+2026-06-22 11:25:38 - Taxation_v1 - WARNING -   ⚠️  Mismatch: slides.json has 11 slides but PPT exported 23 images
+2026-06-22 11:25:38 - Taxation_v1 - WARNING -       Using 23 images for video (PPT export count)
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 1: Slide1.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 2: Slide2.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 3: Slide3.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 4: Slide4.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 5: Slide5.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 6: Slide6.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 7: Slide7.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 8: Slide8.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 9: Slide9.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 10: Slide10.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 11: Slide11.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 12: Slide12.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 13: Slide13.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 14: Slide14.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 15: Slide15.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 16: Slide16.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 17: Slide17.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 18: Slide18.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 19: Slide19.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 20: Slide20.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 21: Slide21.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 22: Slide22.JPG
+2026-06-22 11:25:38 - Taxation_v1 - DEBUG -     Image 23: Slide23.JPG
+2026-06-22 11:25:38 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:25:38 - Taxation_v1 - INFO - PHASE 5: CREATING VIDEO FROM PPT IMAGES
+2026-06-22 11:25:38 - Taxation_v1 - INFO - --------------------------------------------------------------------------------
+2026-06-22 11:25:38 - Taxation_v1 - INFO - Creating video with synced audio: projects\Taxation\v1\Taxation_v1.mp4
+2026-06-22 11:25:38 - Taxation_v1 - INFO -   Source: 23 images exported from PPT
+2026-06-22 11:25:38 - Taxation_v1 - INFO -   Audio: 11 voiceovers from slides.json
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   ✓ Video created successfully
+2026-06-22 11:28:50 - Taxation_v1 - INFO - 
+2026-06-22 11:28:50 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:28:50 - Taxation_v1 - INFO - MEDIA CREATION COMPLETED FOR: Taxation_v1
+2026-06-22 11:28:50 - Taxation_v1 - INFO - ================================================================================
+2026-06-22 11:28:50 - Taxation_v1 - INFO - Summary:
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Slides in slides.json: 11
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Images exported from PPT: 23
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Voiceovers created: 11
+2026-06-22 11:28:50 - Taxation_v1 - INFO - 
+2026-06-22 11:28:50 - Taxation_v1 - INFO - Output files:
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - PowerPoint: projects\Taxation\v1\Taxation_v1.pptx
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Video: projects\Taxation\v1\Taxation_v1.mp4 (FROM PPT-EXPORTED IMAGES)
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Audio folder: projects\Taxation\v1\audio (11 files)
+2026-06-22 11:28:50 - Taxation_v1 - INFO -   - Images folder: projects\Taxation\v1\slides_images (23 files)
+2026-06-22 11:28:50 - Taxation_v1 - INFO - ================================================================================
