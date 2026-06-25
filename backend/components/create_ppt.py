@@ -503,8 +503,8 @@ def split_bullets_into_columns(bullets):
 
 
 def _choose_layout_for_slide(prs, slide_data, content, available_images):
-    # If LLM explicitly chose a layout index, USE IT directly
-    layout_index = slide_data.get("layout_index")
+    # If LLM explicitly chose a layout index via dynamic mapping, USE IT directly
+    layout_index = slide_data.get("layoutslide")
     if layout_index is not None and isinstance(layout_index, int) and 0 <= layout_index < len(prs.slide_layouts):
         print(f"  ✓ Using explicit LLM-chosen layout index: {layout_index}")
         return prs.slide_layouts[layout_index]

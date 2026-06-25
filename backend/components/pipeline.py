@@ -21,6 +21,7 @@ from .llm_prompt import (
 from .ppt_voice import create_voiceover
 from .ppt_video import pptx_to_images_via_powerpoint, create_video_from_images_and_audio
 from .create_ppt import create_ppt
+from .layout_mapper import map_layouts_to_slides
 from .slides_json_validator import validate_and_fix_slides_json
 
 from llm.azure_llm import evaluate_with_azure_llm
@@ -518,6 +519,18 @@ def create_media_from_slides(pdf_basename: str) -> dict:
             except Exception as e:
                 logger.warning(f"  ⚠️  Could not read template_name: {e}")
                 template_name = None
+
+        # ✅ DYNAMIC LAYOUT MAPPING PASS
+        if template_name:
+            logger.info(f"PHASE 2.5: DYNAMIC LAYOUT MAPPING FOR {template_name}")
+            slides = map_layouts_to_slides(slides, template_name)
+            
+            # Save final.json with layout mappings
+            final_json_path = paths["pdf_folder"] / "final.json"
+            slides_data["slides"] = slides
+            with open(final_json_path, 'w', encoding='utf-8') as f:
+                json.dump(slides_data, f, indent=2)
+            logger.info(f"  ✓ Saved dynamically mapped slides to final.json")
 
         # ✅ Get extracted images folder if it exists
         import os as os_module
