@@ -146,10 +146,10 @@ IF you select image_index (not null):
    ✗ VIOLATION: Selecting image with >400 chars = INVALID
 
 IF you do NOT select an image (image_index = null):
-   ✓ CAN have UP TO 7 bullets
+   ✓ CAN have UP TO 5 bullets
    ✓ CAN have UP TO 650 total characters
-   ✓ Should use 4-6 bullets for good readability
-   ✗ VIOLATION: Returning >7 bullets = INVALID
+   ✓ Should use 3-5 bullets for good readability
+   ✗ VIOLATION: Returning >5 bullets = INVALID
    ✗ VIOLATION: Returning >650 characters = INVALID
 
 CHARACTER COUNTING METHOD:
@@ -264,7 +264,7 @@ def enforce_content_character_limit(
     # Align with prompt guidance: tighter limit when an image is present
     max_chars = 400 if has_image else 650
     # Limit bullet count when image present to keep slides concise
-    max_bullets = 3 if has_image else 7
+    max_bullets = 3 if has_image else 5
     total_chars = 0
     result = []
     
@@ -363,7 +363,7 @@ def parse_single_slide_response(response: str) -> Optional[Dict[str, Any]]:
     
     CRITICAL: This function enforces strict content limits based on image presence.
     - With image: max 3 bullets, max 400 chars
-    - Without image: max 7 bullets, max 650 chars
+    - Without image: max 5 bullets, max 650 chars
 
     Args:
         response: Raw LLM response (should be JSON)
@@ -411,7 +411,7 @@ def parse_single_slide_response(response: str) -> Optional[Dict[str, Any]]:
             char_count = sum(len(str(item).strip()) for item in enforced_content if str(item).strip())
             bullet_count = len(enforced_content)
             max_chars = 400 if has_image else 650
-            max_bullets = 3 if has_image else 7
+            max_bullets = 3 if has_image else 5
             
             print(f"[SLIDE CONTENT ENFORCEMENT] Image: {has_image} | Bullets: {bullet_count}/{max_bullets} | Chars: {char_count}/{max_chars}")
             
@@ -424,9 +424,9 @@ def parse_single_slide_response(response: str) -> Optional[Dict[str, Any]]:
                 print(f"  ⚠️  VIOLATION: {char_count} chars with image (max 400) - re-enforcing limit")
                 enforced_content = enforce_content_character_limit(enforced_content, has_image=True)
             
-            if not has_image and bullet_count > 7:
-                print(f"  ⚠️  VIOLATION: {bullet_count} bullets without image (max 7) - truncating to 7")
-                enforced_content = enforced_content[:7]
+            if not has_image and bullet_count > 5:
+                print(f"  ⚠️  VIOLATION: {bullet_count} bullets without image (max 5) - truncating to 5")
+                enforced_content = enforced_content[:5]
             
             if not has_image and char_count > 650:
                 print(f"  ⚠️  VIOLATION: {char_count} chars without image (max 650) - re-enforcing limit")

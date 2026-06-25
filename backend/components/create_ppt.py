@@ -6,6 +6,7 @@ import tempfile
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
+from pptx.enum.shapes import PP_PLACEHOLDER
 from pptx.dml.color import RGBColor
  
  
@@ -71,6 +72,24 @@ def clean_title(title: str) -> str:
     return re.sub(r'^Slide\s+\d+:\s*', '', title or "").strip()
  
  
+def set_text_frame_text(text_frame, text: str, font_size: int | None = None, bold: bool | None = None, alignment=None, color=None):
+    text_frame.clear()
+    text_frame.word_wrap = True
+    p = text_frame.paragraphs[0]
+    p.text = text
+    if font_size is not None:
+        p.font.size = Pt(font_size)
+    if bold is not None:
+        p.font.bold = bold
+    if color is not None:
+        p.font.color.rgb = color
+        if p.runs:
+            p.runs[0].font.color.rgb = color
+    if alignment is not None:
+        p.alignment = alignment
+    return p
+ 
+ 
 def estimate_paragraph_height(text: str, font_size_pt: int) -> float:
     """
     Rough height estimation (in inches) for a paragraph.
@@ -117,7 +136,7 @@ def enforce_content_character_limit(content, has_image=False):
         Content that respects character limits and ends at sentence boundaries
     """
     max_chars = 400 if has_image else 650
-    max_bullets = 3 if has_image else 7
+    max_bullets = 3 if has_image else 5
    
     if isinstance(content, list):
         total_chars = 0
@@ -247,8 +266,109 @@ def _get_best_content_layout(prs):
         _find_layout_by_name(prs, ["title", "content"]) or
         _find_layout_by_name(prs, ["title", "body"]) or
         _find_layout_by_name(prs, ["title", "text"]) or
+        _find_layout_by_placeholder_counts(prs, min_title=1, min_body=1) or
+        _find_layout_by_name(prs, ["content"]) or
+        _find_layout_by_name(prs, ["body"]) or
         _get_best_blank_layout(prs)
     )
+
+
+def _get_best_section_header_layout(prs):
+    """Prefer a section header layout from the template."""
+    return (
+        _find_layout_by_name(prs, ["section", "header"]) or
+        _find_layout_by_name(prs, ["section"]) or
+        _get_best_title_layout(prs) or
+        _get_best_blank_layout(prs)
+    )
+
+
+def _get_best_two_content_layout(prs):
+    """Prefer a two-content or comparison layout from the template."""
+    return (
+        _find_layout_by_name(prs, ["two", "content"]) or
+        _find_layout_by_name(prs, ["two", "column"]) or
+        _find_layout_by_name(prs, ["comparison"]) or
+        _find_layout_by_placeholder_counts(prs, min_title=1, min_body=2) or
+        _find_layout_by_placeholder_counts(prs, min_body=2) or
+        _get_best_content_layout(prs)
+    )
+
+
+def _get_best_image_layout(prs):
+    """Prefer a layout with title, picture and content placeholders."""
+    exact_match = (
+        _find_layout_by_name(prs, ["title", "content", "picture"]) or
+        _find_layout_by_name(prs, ["content", "picture"]) or
+        _find_layout_by_name(prs, ["title", "picture"]) or
+        _find_layout_by_name(prs, ["picture", "text"]) or
+        _find_layout_by_name(prs, ["picture", "body"])
+    )
+    if exact_match:
+        return exact_match
+
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["title"] >= 1 and counts["picture"] >= 1 and counts["body"] >= 1:
+            return layout
+
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["body"] >= 1 and counts["picture"] >= 1:
+            return layout
+
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["picture"] >= 1:
+            return layout
+
+    # When the template does not include a dedicated picture placeholder,
+    # prefer layouts with multiple content/body placeholders so we can use one
+    # column for text and one for the image.
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["title"] >= 1 and counts["body"] >= 2:
+            return layout
+
+    return _get_best_content_layout(prs)
+
+
+def _layout_placeholder_counts(layout):
+    counts = {"title": 0, "subtitle": 0, "body": 0, "picture": 0, "object": 0}
+    for ph in layout.placeholders:
+        if not getattr(ph, "is_placeholder", False):
+            continue
+        ph_type = getattr(ph.placeholder_format, "type", None)
+        name = (ph.name or "").lower()
+        if ph_type == PP_PLACEHOLDER.TITLE or "title" in name:
+            counts["title"] += 1
+        elif ph_type == PP_PLACEHOLDER.SUBTITLE or "subtitle" in name:
+            counts["subtitle"] += 1
+        elif ph_type == PP_PLACEHOLDER.BODY:
+            counts["body"] += 1
+        elif ph_type == PP_PLACEHOLDER.OBJECT:
+            if any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
+                counts["body"] += 1
+            else:
+                counts["object"] += 1
+        elif ph_type == PP_PLACEHOLDER.PICTURE or "picture" in name or "image" in name:
+            counts["picture"] += 1
+        elif "body" in name or "content" in name or "text" in name:
+            counts["body"] += 1
+    return counts
+
+
+def _find_layout_by_placeholder_counts(prs, min_title=0, min_body=0, min_picture=0):
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["title"] >= min_title and counts["body"] >= min_body and counts["picture"] >= min_picture:
+            return layout
+    return None
+
+
+def _layout_has_picture_placeholder(layout):
+    counts = _layout_placeholder_counts(layout)
+    return counts["picture"] > 0
 
 
 def _find_placeholder_by_partial_name(shapes, names):
@@ -258,6 +378,65 @@ def _find_placeholder_by_partial_name(shapes, names):
             if any(part in name for part in names):
                 return shape
     return None
+
+
+def _find_content_placeholders(shapes):
+    placeholders = []
+    for shape in shapes:
+        if not getattr(shape, "is_placeholder", False):
+            continue
+        name = (shape.name or "").lower()
+        ph_type = getattr(shape.placeholder_format, "type", None)
+        if ph_type == PP_PLACEHOLDER.BODY:
+            placeholders.append(shape)
+        elif ph_type == PP_PLACEHOLDER.OBJECT and any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
+            placeholders.append(shape)
+        elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
+            placeholders.append(shape)
+    return placeholders
+
+
+def _find_picture_placeholder(shapes):
+    for shape in shapes:
+        if not getattr(shape, "is_placeholder", False):
+            continue
+        name = (shape.name or "").lower()
+        ph_type = getattr(shape.placeholder_format, "type", None)
+        if ph_type == PP_PLACEHOLDER.PICTURE or "picture" in name or "image" in name:
+            return shape
+    return None
+
+
+def _find_text_placeholders(shapes):
+    placeholders = []
+    for shape in shapes:
+        if not getattr(shape, "is_placeholder", False):
+            continue
+        name = (shape.name or "").lower()
+        ph_type = getattr(shape.placeholder_format, "type", None)
+        if ph_type == PP_PLACEHOLDER.BODY:
+            placeholders.append(shape)
+        elif ph_type == PP_PLACEHOLDER.OBJECT and any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
+            placeholders.append(shape)
+        elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
+            placeholders.append(shape)
+    return placeholders
+
+
+def _normalize_image_index(image_index):
+    """Return a valid integer image index or None."""
+    if image_index is None:
+        return None
+    if isinstance(image_index, int):
+        return image_index
+    if isinstance(image_index, str):
+        image_index = image_index.strip()
+        if image_index.isdigit():
+            return int(image_index)
+    try:
+        return int(image_index)
+    except (TypeError, ValueError):
+        return None
 
 
 def split_bullets_into_columns(bullets):
@@ -273,6 +452,60 @@ def split_bullets_into_columns(bullets):
 
     mid = (len(bullets) + 1) // 2
     return bullets[:mid], bullets[mid:]
+
+
+def _choose_layout_for_slide(prs, slide_data, content, available_images):
+    ctype = slide_data.get("content_type", "content") or "content"
+    image_index = _normalize_image_index(slide_data.get("image_index"))
+    available_count = len(available_images) if isinstance(available_images, dict) else 0
+    has_image = (
+        image_index is not None
+        and isinstance(available_images, dict)
+        and 0 <= image_index < available_count
+    )
+    is_image_text = ctype in {"image_text", "image", "visual"}
+
+    if ctype == "title":
+        return _get_best_title_layout(prs)
+    if ctype == "section":
+        return _get_best_section_header_layout(prs)
+    if is_image_text or has_image:
+        return _get_best_image_layout(prs)
+    if ctype == "two_column":
+        return _get_best_two_content_layout(prs)
+    return _get_best_content_layout(prs)
+
+
+def _calculate_font_size_for_text(content, width_in, height_in, max_font_size=22, min_font_size=10):
+    if not content:
+        return max_font_size
+
+    if isinstance(content, str):
+        content = [content]
+
+    text = " ".join(str(item).strip() for item in content if str(item).strip())
+    if not text:
+        return max_font_size
+
+    avg_chars_per_line = max(20, int(width_in * 12))
+    total_lines = sum(
+        max(1, (len(str(item)) + avg_chars_per_line - 1) // avg_chars_per_line)
+        for item in content
+    )
+    line_height_in = max_font_size * 1.12 / 72
+    max_lines = max(1, int(height_in / line_height_in))
+
+    if total_lines <= max_lines:
+        return max_font_size
+
+    computed_size = int(height_in * 72 / (total_lines * 1.12))
+    return max(min_font_size, min(computed_size, max_font_size))
+
+
+def _get_textbox_dimensions(shape):
+    width_in = shape.width / 914400
+    height_in = shape.height / 914400
+    return width_in, height_in
 
 
 def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_path=None, template_name=None, images_folder=None):
@@ -332,14 +565,26 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
     blank_layout = _get_best_blank_layout(prs)
     title_layout = _get_best_title_layout(prs)
     content_layout = _get_best_content_layout(prs)
+    section_layout = _get_best_section_header_layout(prs)
+    two_column_layout = _get_best_two_content_layout(prs)
    
     # ✅ Collect available images if folder provided
     available_images = {}
-    if images_folder and Path(images_folder).exists():
-        for img_file in sorted(Path(images_folder).glob("*")):
+    images_path = None
+    if images_folder:
+        candidate_path = Path(images_folder)
+        if candidate_path.exists():
+            images_path = candidate_path
+        else:
+            alt_path = Path(__file__).parent.parent / images_folder
+            if alt_path.exists():
+                images_path = alt_path
+
+    if images_path and images_path.exists():
+        for img_file in sorted(images_path.glob("*")):
             if img_file.is_file() and img_file.suffix.lower() in ['.png', '.jpg', '.jpeg', '.gif']:
                 available_images[img_file.name] = str(img_file)
-        print(f"✅ Loaded {len(available_images)} images from: {images_folder}")
+        print(f"✅ Loaded {len(available_images)} images from: {images_path}")
         if available_images:
             print(f"   Images: {list(available_images.keys())}")
     else:
@@ -348,28 +593,27 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
         else:
             print(f"⚠️  No images folder provided")
  
-    # ✅ Get color scheme based on template name
-    
+    # ✅ Determine whether template styling should be preserved
     normalized_template = normalize_template_name(template_name)
-    if normalized_template in COLOR_PATTERNS:
-        colors = get_colors_for_template(normalized_template)
+    template_loaded = bool(template_path and Path(template_path).exists())
+    if not template_loaded:
+        colors = DEFAULT_COLORS
     else:
-        colors = DEFAULT_COLORS  # or skip styling completely
+        colors = None
 
-
-    print(f"🎨 Template for colors: {normalized_template}")
+    print(f"🎨 Template loaded: {template_loaded} | Template name: {normalized_template}")
 
  
     for idx, slide_data in enumerate(slides, start=1):
  
         title_text = clean_title(slide_data.get("title", f"Slide {idx}"))
         content = slide_data.get("content", [])
-        ctype = slide_data.get("content_type", "bullets")
+        ctype = slide_data.get("content_type", "content") or "content"
         voiceover = slide_data.get("voiceover", "")
  
-        # Determine font colors based on template
-        title_color = colors["title"]
-        content_color = colors["content"]
+        # Determine font colors based on whether a template is loaded
+        title_color = colors["title"] if colors else None
+        content_color = colors["content"] if colors else None
  
         # Normalize content
         if isinstance(content, str):
@@ -378,30 +622,28 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
         # Remove any single-word bullet points
         content = filter_single_word_bullets(content)
  
+        # Determine slide layout
+        chosen_layout = _choose_layout_for_slide(prs, slide_data, content, available_images) or blank_layout
         # Check if this is a title-only slide (cover slide)
         # First slide is ALWAYS title-only (centered)
-        is_title_only = (idx == 1) or (not content or all(not str(item).strip() for item in content))
+        is_title_only = (idx == 1) or ctype == "title" or (not content or all(not str(item).strip() for item in content))
  
         if is_title_only:
             # ----------------------------
             # TITLE-ONLY SLIDE (CENTERED)
             # ----------------------------
-            slide = prs.slides.add_slide(title_layout or blank_layout)
+            slide = prs.slides.add_slide(chosen_layout)
             title_shape = slide.shapes.title if slide.shapes.title else None
 
             if title_shape:
-                tf = title_shape.text_frame
-                tf.clear()
-                tf.word_wrap = True
-                p = tf.paragraphs[0]
-                p.text = title_text
-                p.font.size = Pt(54)
-                p.font.bold = True
-                p.font.name = "Arial"
-                p.font.color.rgb = title_color
-                if p.runs:
-                    p.runs[0].font.color.rgb = title_color
-                p.alignment = PP_ALIGN.CENTER
+                set_text_frame_text(
+                    title_shape.text_frame,
+                    title_text,
+                    font_size=54,
+                    bold=True,
+                    alignment=PP_ALIGN.CENTER,
+                    color=title_color
+                )
             else:
                 slide_height = prs.slide_height
                 slide_width = prs.slide_width
@@ -414,17 +656,15 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
                 )
  
                 tf = title_box.text_frame
-                tf.word_wrap = True
+                set_text_frame_text(
+                    tf,
+                    title_text,
+                    font_size=54,
+                    bold=True,
+                    alignment=PP_ALIGN.CENTER,
+                    color=title_color
+                )
                 tf.auto_size = True
-                p = tf.paragraphs[0]
-                p.text = title_text
-                p.font.size = Pt(54)
-                p.font.bold = True
-                p.font.name = "Arial"
-                p.font.color.rgb = title_color
-                if p.runs:
-                    p.runs[0].font.color.rgb = title_color
-                p.alignment = PP_ALIGN.CENTER
  
             # ----------------------------
             # NOTES
@@ -442,176 +682,226 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
             content_top = Inches(2.8)
             content_height = prs.slide_height - Inches(3.5)
  
-            # ✅ Convert EMUs → inches safely
-            max_height_in = content_height / 914400
- 
             content_font_size = 22
  
-            content_chunks = split_content_to_fit(
-                content,
-                max_height_in=max_height_in,
-                font_size_pt=content_font_size
+            image_index = _normalize_image_index(slide_data.get("image_index"))
+            available_count = len(available_images) if isinstance(available_images, dict) else 0
+            has_image = (
+                image_index is not None
+                and isinstance(available_images, dict)
+                and 0 <= image_index < available_count
             )
- 
-            for slide_part_idx, chunk in enumerate(content_chunks):
- 
-                slide = prs.slides.add_slide(content_layout or blank_layout)
-                title_shape = slide.shapes.title if slide.shapes.title else None
 
-                # ----------------------------
-                # TITLE BOX (AUTO SAFE)
-                # ----------------------------
-                if title_shape:
-                    tf = title_shape.text_frame
-                    tf.clear()
-                    tf.word_wrap = True
-                    p = tf.paragraphs[0]
-                    p.text = title_text
-                    p.font.size = Pt(36)
-                    p.font.bold = True
-                    p.font.name = "Arial"
-                    p.font.color.rgb = title_color
-                    p.alignment = PP_ALIGN.LEFT
-                else:
-                    title_box = slide.shapes.add_textbox(
-                        Inches(0.8),
-                        Inches(1.2),
-                        prs.slide_width - Inches(1.6),
-                        Inches(1.4)  # taller title box
-                    )
+            # Log image processing
+            if image_index is not None:
+                print(f"  Slide {idx}: image_index={image_index}, available_images={available_count}, has_image={has_image}")
+                if not has_image and available_count > 0:
+                    if not isinstance(image_index, int):
+                        print(f"    → image_index is not an integer-like value (actual type: {type(slide_data.get('image_index'))})")
+                    elif image_index < 0 or image_index >= available_count:
+                        print(f"    → image_index out of range [0, {available_count-1}]")
  
-                    tf = title_box.text_frame
-                    tf.word_wrap = True
-                    tf.auto_size = True
-                    p = tf.paragraphs[0]
-                    p.text = title_text
-                    p.font.size = Pt(36)
-                    p.font.bold = True
-                    p.font.name = "Arial"
-                    p.font.color.rgb = title_color
-                    p.alignment = PP_ALIGN.LEFT
- 
-                # ----------------------------
-                # CONTENT BOX
-                # ----------------------------
-                image_index = slide_data.get("image_index")
-                has_image = (
-                    image_index is not None
-                    and isinstance(image_index, int)
-                    and isinstance(available_images, dict)
-                    and 0 <= image_index < len(list(available_images.keys()))
+            slide = prs.slides.add_slide(chosen_layout)
+            title_shape = slide.shapes.title if slide.shapes.title else None
+
+            # ----------------------------
+            # TITLE BOX (AUTO SAFE)
+            # ----------------------------
+            if title_shape:
+                set_text_frame_text(
+                    title_shape.text_frame,
+                    title_text,
+                    font_size=36,
+                    bold=True,
+                    alignment=PP_ALIGN.LEFT,
+                    color=title_color
                 )
-               
-                # Log image processing
-                if image_index is not None:
-                    available_count = len(list(available_images.keys())) if isinstance(available_images, dict) else 0
-                    print(f"  Slide {idx}: image_index={image_index}, available_images={available_count}, has_image={has_image}")
-                    if not has_image and available_count > 0:
-                        if not isinstance(image_index, int):
-                            print(f"    → image_index is not int (type: {type(image_index)})")
-                        elif image_index < 0 or image_index >= available_count:
-                            print(f"    → image_index out of range [0, {available_count-1}]")
+            else:
+                title_box = slide.shapes.add_textbox(
+                    Inches(0.8),
+                    Inches(1.2),
+                    prs.slide_width - Inches(1.6),
+                    Inches(1.4)  # taller title box
+                )
  
-                # ✅ ENFORCE CHARACTER LIMITS ON CONTENT
-                enforced_chunk = enforce_content_character_limit(chunk, has_image=has_image)
+                tf = title_box.text_frame
+                set_text_frame_text(
+                    tf,
+                    title_text,
+                    font_size=36,
+                    bold=True,
+                    alignment=PP_ALIGN.LEFT,
+                    color=title_color
+                )
+                tf.auto_size = True
  
-                def add_bullet_list_to_frame(frame, bullets):
-                    if isinstance(bullets, str):
-                        bullets = [bullets]
-                    elif bullets is None:
-                        bullets = []
-                    frame.clear()
-                    frame.word_wrap = True
-                    for i, bullet in enumerate(bullets):
-                        para = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
-                        bullet_text = f"• {str(bullet)}"
-                        para.text = bullet_text
-                        para.font.size = Pt(content_font_size)
-                        para.font.name = "Arial"
+            # ----------------------------
+            # CONTENT BOX
+            # ----------------------------
+            enforced_chunk = enforce_content_character_limit(content, has_image=has_image)
+ 
+            def add_bullet_list_to_frame(frame, bullets, shape=None):
+                if isinstance(bullets, str):
+                    bullets = [bullets]
+                elif bullets is None:
+                    bullets = []
+                frame.clear()
+                frame.word_wrap = True
+                width_in, height_in = _get_textbox_dimensions(shape) if shape is not None else (prs.slide_width / 914400 - 1.6, content_height / 914400)
+                font_size = _calculate_font_size_for_text(bullets, width_in, height_in, max_font_size=22, min_font_size=10)
+                for i, bullet in enumerate(bullets):
+                    para = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
+                    para.text = str(bullet)
+                    if font_size:
+                        para.font.size = Pt(font_size)
+                    if content_color is not None:
                         para.font.color.rgb = content_color
                         if para.runs:
                             para.runs[0].font.color.rgb = content_color
-                        para.level = 0
+                    para.level = 0
  
-                body_placeholder = _find_placeholder_by_partial_name(slide.shapes, ["content", "body", "text"])
-                if body_placeholder is not None and not has_image:
-                    tf = body_placeholder.text_frame
-                    add_bullet_list_to_frame(tf, enforced_chunk)
-                elif has_image:
-                    text_width = prs.slide_width / 2 - Inches(1.0)
+            content_placeholders = _find_text_placeholders(slide.shapes)
+            picture_placeholder = _find_picture_placeholder(slide.shapes)
+            image_filenames = list(available_images.keys()) if available_images else []
+            needs_image_layout = slide_data.get("content_type") in {"image_text", "image", "visual"} or has_image
+
+            if needs_image_layout:
+                image_filename = image_filenames[image_index] if image_index is not None and 0 <= image_index < len(image_filenames) else None
+                if image_filename:
+                    image_path = available_images[image_filename]
+                    try:
+                        if picture_placeholder is not None:
+                            if hasattr(picture_placeholder, "insert_picture"):
+                                picture_placeholder.insert_picture(image_path)
+                            else:
+                                slide.shapes.add_picture(
+                                    image_path,
+                                    picture_placeholder.left,
+                                    picture_placeholder.top,
+                                    width=picture_placeholder.width,
+                                    height=picture_placeholder.height
+                                )
+                        elif len(content_placeholders) >= 2:
+                            image_target = content_placeholders[1]
+                            slide.shapes.add_picture(
+                                image_path,
+                                image_target.left,
+                                image_target.top,
+                                width=image_target.width,
+                                height=image_target.height
+                            )
+                        elif len(content_placeholders) == 1:
+                            text_target = content_placeholders[0]
+                            image_left = text_target.left + text_target.width + Inches(0.2)
+                            image_width = prs.slide_width - image_left - Inches(0.8)
+                            image_top = text_target.top
+                            image_height = text_target.height
+                            if image_width > 0:
+                                slide.shapes.add_picture(
+                                    image_path,
+                                    image_left,
+                                    image_top,
+                                    width=image_width,
+                                    height=image_height
+                                )
+                            else:
+                                slide.shapes.add_picture(
+                                    image_path,
+                                    Inches(0.8),
+                                    content_top,
+                                    width=prs.slide_width - Inches(1.6),
+                                    height=content_height
+                                )
+                        else:
+                            slide.shapes.add_picture(
+                                image_path,
+                                Inches(0.8),
+                                content_top,
+                                width=prs.slide_width - Inches(1.6),
+                                height=content_height
+                            )
+                        print(f"  ✓ Slide {idx}: Added image #{image_index} ({image_filename})")
+                    except Exception as e:
+                        print(f"  ⚠️  Slide {idx}: Failed to add image #{image_index} ({image_filename}) - {e}")
+                elif picture_placeholder is not None:
+                    # No file, leave image placeholder blank for manual replacement
+                    print(f"  ⚠️  Slide {idx}: No image file available, preserving image placeholder")
+                else:
+                    print(f"  ⚠️  Slide {idx}: No picture placeholder found for image slide layout")
+
+                if content_placeholders:
+                    if len(content_placeholders) >= 2 and slide_data.get("content_type") == "two_column":
+                        left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
+                        add_bullet_list_to_frame(content_placeholders[0].text_frame, left_bullets, shape=content_placeholders[0])
+                        add_bullet_list_to_frame(content_placeholders[1].text_frame, right_bullets, shape=content_placeholders[1])
+                    else:
+                        target_frame = content_placeholders[0].text_frame
+                        add_bullet_list_to_frame(target_frame, enforced_chunk, shape=content_placeholders[0])
+                elif picture_placeholder is not None:
+                    # Add a text box only if image placeholder exists but no text placeholder
+                    content_box = slide.shapes.add_textbox(
+                        picture_placeholder.left + picture_placeholder.width + Inches(0.2),
+                        content_top,
+                        prs.slide_width - (picture_placeholder.left + picture_placeholder.width + Inches(1.0)),
+                        content_height
+                    )
+                    add_bullet_list_to_frame(content_box.text_frame, enforced_chunk, shape=content_box)
+                else:
                     content_box = slide.shapes.add_textbox(
                         Inches(0.8),
                         content_top,
-                        text_width,
+                        prs.slide_width / 2 - Inches(1.0),
+                        content_height
+                    )
+                    add_bullet_list_to_frame(content_box.text_frame, enforced_chunk, shape=content_box)
+            elif content_placeholders:
+                if len(content_placeholders) >= 2 and slide_data.get("content_type") == "two_column":
+                    left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
+                    add_bullet_list_to_frame(content_placeholders[0].text_frame, left_bullets, shape=content_placeholders[0])
+                    add_bullet_list_to_frame(content_placeholders[1].text_frame, right_bullets, shape=content_placeholders[1])
+                else:
+                    target_frame = content_placeholders[0].text_frame
+                    add_bullet_list_to_frame(target_frame, enforced_chunk, shape=content_placeholders[0])
+            else:
+                use_two_columns = (
+                    isinstance(enforced_chunk, list)
+                    and len(enforced_chunk) > 3
+                    and ctype == "two_column"
+                )
+                if use_two_columns:
+                    left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
+                    left_box = slide.shapes.add_textbox(
+                        Inches(0.8),
+                        content_top,
+                        prs.slide_width / 2 - Inches(1.1),
+                        content_height
+                    )
+                    right_box = slide.shapes.add_textbox(
+                        prs.slide_width / 2 + Inches(0.1),
+                        content_top,
+                        prs.slide_width / 2 - Inches(1.1),
+                        content_height
+                    )
+                    add_bullet_list_to_frame(left_box.text_frame, left_bullets, shape=left_box)
+                    add_bullet_list_to_frame(right_box.text_frame, right_bullets, shape=right_box)
+                else:
+                    content_box = slide.shapes.add_textbox(
+                        Inches(0.8),
+                        content_top,
+                        prs.slide_width - Inches(1.6),
                         content_height
                     )
                     tf = content_box.text_frame
-                    add_bullet_list_to_frame(tf, enforced_chunk)
-                else:
-                    use_two_columns = (
-                        len(slides) >= 4
-                        and isinstance(enforced_chunk, list)
-                        and len(enforced_chunk) > 3
-                        and idx % 2 == 0
-                    )
-                    if use_two_columns:
-                        left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
-                        left_box = slide.shapes.add_textbox(
-                            Inches(0.8),
-                            content_top,
-                            prs.slide_width / 2 - Inches(1.1),
-                            content_height
-                        )
-                        right_box = slide.shapes.add_textbox(
-                            prs.slide_width / 2 + Inches(0.1),
-                            content_top,
-                            prs.slide_width / 2 - Inches(1.1),
-                            content_height
-                        )
-                        add_bullet_list_to_frame(left_box.text_frame, left_bullets)
-                        add_bullet_list_to_frame(right_box.text_frame, right_bullets)
-                    else:
-                        content_box = slide.shapes.add_textbox(
-                            Inches(0.8),
-                            content_top,
-                            prs.slide_width - Inches(1.6),
-                            content_height
-                        )
-                        tf = content_box.text_frame
-                        add_bullet_list_to_frame(tf, enforced_chunk)
+                    add_bullet_list_to_frame(tf, enforced_chunk, shape=content_box)
  
-                # ✅ INSERT IMAGE IF AVAILABLE (only on first chunk/slide)
-                if slide_part_idx == 0 and has_image:
-                    image_filenames = list(available_images.keys())
-                    image_filename = image_filenames[image_index]
-                    image_path = available_images[image_filename]
-                    try:
-                        # Add image to the right side of the slide
-                        img_width = prs.slide_width / 2 - Inches(1.0)
-                        img_left = prs.slide_width / 2 + Inches(0.2)
-                        img_top = content_top
-                        slide.shapes.add_picture(
-                            image_path,
-                            img_left,
-                            img_top,
-                            width=img_width
-                        )
-                        print(f"  ✓ Slide {idx}: Added image #{image_index} ({image_filename})")
-                    except Exception as e:
-                        print(f"  ⚠️  Slide {idx}: Failed to add image #{image_index} - {e}")
-                elif slide_part_idx == 0 and not has_image and image_index is not None:
-                    # Log why image was not added
-                    image_filenames = list(available_images.keys()) if available_images else []
-                    print(f"  ⚠️  Slide {idx}: image_index={image_index}, but has_image=False (available: {len(image_filenames)} images)")
- 
-                # ----------------------------
-                # NOTES
-                # ----------------------------
-                slide.notes_slide.notes_text_frame.text = (
-                    f"{title_text}\n\n"
-                    f"{voiceover}\n\n"
-                    f"Audio: {os.path.join(audio_folder, f'slide_{idx}.mp3')}"
-                )
+            # ----------------------------
+            # NOTES
+            # ----------------------------
+            slide.notes_slide.notes_text_frame.text = (
+                f"{title_text}\n\n"
+                f"{voiceover}\n\n"
+                f"Audio: {os.path.join(audio_folder, f'slide_{idx}.mp3')}"
+            )
  
     
     if os.path.exists(output_ppt):

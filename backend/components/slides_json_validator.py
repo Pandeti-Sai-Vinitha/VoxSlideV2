@@ -188,7 +188,7 @@ class SlidesJSONValidator:
         bullet_count = count_bullets(content)
        
         max_chars = 400 if has_image else 650
-        max_bullets = 3 if has_image else 7
+        max_bullets = 3 if has_image else 5
        
         # Step 1: Truncate excess bullets
         if bullet_count > max_bullets:
