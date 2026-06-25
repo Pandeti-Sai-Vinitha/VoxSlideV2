@@ -285,27 +285,50 @@ def _get_best_section_header_layout(prs):
 
 def _get_best_two_content_layout(prs):
     """Prefer a two-content or comparison layout from the template."""
-    return (
+    exact = (
         _find_layout_by_name(prs, ["two", "content"]) or
         _find_layout_by_name(prs, ["two", "column"]) or
         _find_layout_by_name(prs, ["comparison"]) or
         _find_layout_by_placeholder_counts(prs, min_title=1, min_body=2) or
-        _find_layout_by_placeholder_counts(prs, min_body=2) or
-        _get_best_content_layout(prs)
+        _find_layout_by_placeholder_counts(prs, min_body=2)
     )
+    if exact:
+        return exact
+
+    # Broad fallback: any layout with a title and at least 2 non-decorative placeholders
+    for layout in prs.slide_layouts:
+        content_count = 0
+        has_title = False
+        for ph in layout.placeholders:
+            if not getattr(ph, "is_placeholder", False): continue
+            ptype = getattr(ph.placeholder_format, "type", None)
+            if ptype in (1, 3):
+                has_title = True
+            elif ptype not in (4, 15, 16, 17):
+                content_count += 1
+        if has_title and content_count >= 2:
+            return layout
+
+    return _get_best_content_layout(prs)
 
 
 def _get_best_image_layout(prs):
     """Prefer a layout with title, picture and content placeholders."""
-    exact_match = (
-        _find_layout_by_name(prs, ["title", "content", "picture"]) or
-        _find_layout_by_name(prs, ["content", "picture"]) or
-        _find_layout_by_name(prs, ["title", "picture"]) or
-        _find_layout_by_name(prs, ["picture", "text"]) or
-        _find_layout_by_name(prs, ["picture", "body"])
-    )
-    if exact_match:
-        return exact_match
+    for keywords in [
+        ["title", "content", "image"],
+        ["title", "content", "picture"],
+        ["image", "content"],
+        ["picture", "content"],
+        ["title", "image"],
+        ["title", "picture"],
+        ["image", "text"],
+        ["picture", "text"],
+        ["image"],
+        ["picture"]
+    ]:
+        match = _find_layout_by_name(prs, keywords)
+        if match:
+            return match
 
     for layout in prs.slide_layouts:
         counts = _layout_placeholder_counts(layout)
@@ -322,12 +345,23 @@ def _get_best_image_layout(prs):
         if counts["picture"] >= 1:
             return layout
 
-    # When the template does not include a dedicated picture placeholder,
-    # prefer layouts with multiple content/body placeholders so we can use one
-    # column for text and one for the image.
     for layout in prs.slide_layouts:
         counts = _layout_placeholder_counts(layout)
         if counts["title"] >= 1 and counts["body"] >= 2:
+            return layout
+
+    # Very broad fallback: any layout with a title and at least 2 non-decorative placeholders
+    for layout in prs.slide_layouts:
+        content_count = 0
+        has_title = False
+        for ph in layout.placeholders:
+            if not getattr(ph, "is_placeholder", False): continue
+            ptype = getattr(ph.placeholder_format, "type", None)
+            if ptype in (1, 3): # TITLE
+                has_title = True
+            elif ptype not in (4, 15, 16, 17): # Ignore SUBTITLE, FOOTER, DATE, SLIDE_NUMBER
+                content_count += 1
+        if has_title and content_count >= 2:
             return layout
 
     return _get_best_content_layout(prs)
@@ -386,7 +420,11 @@ def _find_content_placeholders(shapes):
         if ph_type in (PP_PLACEHOLDER.BODY, PP_PLACEHOLDER.OBJECT):
             placeholders.append(shape)
         elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
-            placeholders.append(shape)
+            if shape not in placeholders:
+                placeholders.append(shape)
+        elif ph_type not in (1, 3, 4, 15, 16, 17, 18): # Ignore Title, Subtitle, Date, Footer, SlideNum, Picture
+            if shape not in placeholders:
+                placeholders.append(shape)
     return placeholders
 
 
@@ -411,7 +449,11 @@ def _find_text_placeholders(shapes):
         if ph_type in (PP_PLACEHOLDER.BODY, PP_PLACEHOLDER.OBJECT):
             placeholders.append(shape)
         elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
-            placeholders.append(shape)
+            if shape not in placeholders:
+                placeholders.append(shape)
+        elif ph_type not in (1, 3, 4, 15, 16, 17, 18):
+            if shape not in placeholders:
+                placeholders.append(shape)
     return placeholders
 
 
@@ -782,28 +824,6 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
                                 width=image_target.width,
                                 height=image_target.height
                             )
-                        elif len(content_placeholders) == 1:
-                            text_target = content_placeholders[0]
-                            image_left = text_target.left + text_target.width + Inches(0.2)
-                            image_width = prs.slide_width - image_left - Inches(0.8)
-                            image_top = text_target.top
-                            image_height = text_target.height
-                            if image_width > 0:
-                                slide.shapes.add_picture(
-                                    image_path,
-                                    image_left,
-                                    image_top,
-                                    width=image_width,
-                                    height=image_height
-                                )
-                            else:
-                                slide.shapes.add_picture(
-                                    image_path,
-                                    Inches(0.8),
-                                    content_top,
-                                    width=prs.slide_width - Inches(1.6),
-                                    height=content_height
-                                )
                         else:
                             slide.shapes.add_picture(
                                 image_path,
