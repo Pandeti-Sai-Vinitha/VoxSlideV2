@@ -517,7 +517,7 @@ def _choose_layout_for_slide(prs, slide_data, content, available_images):
         return _get_best_title_layout(prs)
     if ctype == "section":
         return _get_best_section_header_layout(prs)
-    if is_image_text or has_image:
+    if is_image_text or (image_index is not None):
         return _get_best_image_layout(prs)
     if ctype == "two_column":
         return _get_best_two_content_layout(prs)
@@ -811,7 +811,7 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
             content_placeholders = _find_text_placeholders(slide.shapes)
             picture_placeholder = _find_picture_placeholder(slide.shapes)
             image_filenames = list(available_images.keys()) if available_images else []
-            needs_image_layout = slide_data.get("content_type") in {"image_text", "image", "visual"} or has_image
+            needs_image_layout = slide_data.get("content_type") in {"image_text", "image", "visual"} or (image_index is not None)
 
             if needs_image_layout:
                 image_filename = image_filenames[image_index] if image_index is not None and 0 <= image_index < len(image_filenames) else None

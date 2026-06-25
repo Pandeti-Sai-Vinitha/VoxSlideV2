@@ -158,7 +158,8 @@ CHARACTER COUNTING METHOD:
 - Example: "Bullet one." (11 chars) + "Bullet two." (11 chars) = 22 chars total
 
 4. Content type rules:
-   - "bullets": Use bullet points for lists, key points, steps
+   - "content": Standard single-column text or bullet points.
+   - "two_column": Use for comparing concepts or when you have many bullets that should be split into two columns.
    - "title": Just title (no content)
    - "summary": Summarize key points from context (as bullet points)
 
@@ -234,7 +235,7 @@ Return ONLY valid JSON (no markdown, no code blocks):
 {{
   "slide": {{
     "title": "Slide title",
-    "content_type": "bullets|title|summary",
+    "content_type": "content|two_column|title|summary",
     "content": ["bullet 1", "bullet 2"] or "" for title,
     "voiceover": "Voice-over script starting with title, then detailed explanation of all bullets (4-6 sentences minimum)",
     "image_prompt": "",
@@ -391,7 +392,7 @@ def parse_single_slide_response(response: str) -> Optional[Dict[str, Any]]:
         # Validate and normalize
         slide.setdefault("title", "")
         slide.setdefault("content", "")
-        slide.setdefault("content_type", "bullets")
+        slide.setdefault("content_type", "content")
         slide.setdefault("voiceover", "")
         slide.setdefault("image_prompt", "")
         slide.setdefault("image_index", None)
