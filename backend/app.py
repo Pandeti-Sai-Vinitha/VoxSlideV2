@@ -6,6 +6,7 @@ from db.database import Base, engine
 from db import models
 
 from routers.upload import router as upload_router
+from extract_layouts import extract_layouts
 
 
 from routers.process import router as process_router
@@ -78,6 +79,13 @@ def on_startup() -> None:
         templates_dir = BASE_DIR / "sample_ppt"
         preview_dir = templates_dir / "previews"
         preview_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            print("Extracting layout JSONs for templates...")
+            extract_layouts(str(templates_dir))
+            print("✅ Layout JSONs extracted.")
+        except Exception as exc:
+            print(f"⚠️ Error extracting layouts: {exc}")
 
         for template_file in templates_dir.iterdir():
             if template_file.suffix.lower() not in (".pptx", ".potx"):
