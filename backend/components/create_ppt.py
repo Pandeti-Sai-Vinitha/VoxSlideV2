@@ -283,31 +283,42 @@ def _get_best_section_header_layout(prs):
     )
 
 
+def _is_two_column_geometry(layout):
+    content_phs = []
+    for ph in layout.placeholders:
+        if not getattr(ph, "is_placeholder", False): continue
+        ptype = getattr(ph.placeholder_format, "type", None)
+        if ptype not in (1, 3, 4, 15, 16, 17, 18):
+            content_phs.append(ph)
+    if len(content_phs) != 2: return False
+    return abs(content_phs[0].top - content_phs[1].top) < 457200 and abs(content_phs[0].width - content_phs[1].width) < 1371600
+
 def _get_best_two_content_layout(prs):
     """Prefer a two-content or comparison layout from the template."""
     exact = (
         _find_layout_by_name(prs, ["two", "content"]) or
         _find_layout_by_name(prs, ["two", "column"]) or
-        _find_layout_by_name(prs, ["comparison"]) or
-        _find_layout_by_placeholder_counts(prs, min_title=1, min_body=2) or
-        _find_layout_by_placeholder_counts(prs, min_body=2)
+        _find_layout_by_name(prs, ["comparison"])
     )
-    if exact:
-        return exact
+    if exact: return exact
 
-    # Broad fallback: any layout with a title and at least 2 non-decorative placeholders
+    for layout in prs.slide_layouts:
+        if _layout_placeholder_counts(layout)["title"] >= 1 and _is_two_column_geometry(layout):
+            return layout
+
+    for layout in prs.slide_layouts:
+        counts = _layout_placeholder_counts(layout)
+        if counts["title"] >= 1 and counts["body"] >= 2: return layout
+
     for layout in prs.slide_layouts:
         content_count = 0
         has_title = False
         for ph in layout.placeholders:
-            if not getattr(ph, "is_placeholder", False): continue
-            ptype = getattr(ph.placeholder_format, "type", None)
-            if ptype in (1, 3):
-                has_title = True
-            elif ptype not in (4, 15, 16, 17):
-                content_count += 1
-        if has_title and content_count >= 2:
-            return layout
+            if getattr(ph, "is_placeholder", False):
+                ptype = getattr(ph.placeholder_format, "type", None)
+                if ptype in (1, 3): has_title = True
+                elif ptype not in (4, 15, 16, 17): content_count += 1
+        if has_title and content_count >= 2: return layout
 
     return _get_best_content_layout(prs)
 
@@ -345,24 +356,27 @@ def _get_best_image_layout(prs):
         if counts["picture"] >= 1:
             return layout
 
+    fallback = None
     for layout in prs.slide_layouts:
         counts = _layout_placeholder_counts(layout)
         if counts["title"] >= 1 and counts["body"] >= 2:
-            return layout
+            if not _is_two_column_geometry(layout): return layout
+            if fallback is None: fallback = layout
+    if fallback: return fallback
 
-    # Very broad fallback: any layout with a title and at least 2 non-decorative placeholders
+    broad_fallback = None
     for layout in prs.slide_layouts:
         content_count = 0
         has_title = False
         for ph in layout.placeholders:
-            if not getattr(ph, "is_placeholder", False): continue
-            ptype = getattr(ph.placeholder_format, "type", None)
-            if ptype in (1, 3): # TITLE
-                has_title = True
-            elif ptype not in (4, 15, 16, 17): # Ignore SUBTITLE, FOOTER, DATE, SLIDE_NUMBER
-                content_count += 1
+            if getattr(ph, "is_placeholder", False):
+                ptype = getattr(ph.placeholder_format, "type", None)
+                if ptype in (1, 3): has_title = True
+                elif ptype not in (4, 15, 16, 17): content_count += 1
         if has_title and content_count >= 2:
-            return layout
+            if not _is_two_column_geometry(layout): return layout
+            if broad_fallback is None: broad_fallback = layout
+    if broad_fallback: return broad_fallback
 
     return _get_best_content_layout(prs)
 
