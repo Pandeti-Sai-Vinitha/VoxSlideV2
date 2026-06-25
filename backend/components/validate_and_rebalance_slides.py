@@ -40,7 +40,7 @@ def enforce_content_character_limit(content, has_image=False):
         Content that respects character limits and ends at sentence boundaries
     """
     max_chars = 400 if has_image else 650
-    max_bullets = 3 if has_image else 7
+    max_bullets = 3 if has_image else 5
    
     if isinstance(content, list):
         total_chars = 0
@@ -143,15 +143,15 @@ def validate_slide_content(slide: Dict[str, Any], slide_number: int) -> Tuple[bo
         if not issues:
             print(f"✅ Slide {slide_number} (WITH IMAGE): {char_count} chars, {bullet_count} bullets - VALID")
     else:
-        # Slides WITHOUT images: max 650 chars, max 7 bullets
+        # Slides WITHOUT images: max 650 chars, max 5 bullets
         if char_count < 300:
             issues.append(f"⚠️  Slide {slide_number} (NO IMAGE): {char_count} chars (MIN recommended: 300) - NEEDS {300 - char_count} more chars")
         if char_count > 650:
             issues.append(f"❌ Slide {slide_number} (NO IMAGE): {char_count} chars (MAX: 650) - EXCEEDS by {char_count - 650}")
         if bullet_count < 3:
             issues.append(f"⚠️  Slide {slide_number} (NO IMAGE): {bullet_count} bullets (MIN recommended: 3)")
-        if bullet_count > 7:
-            issues.append(f"❌ Slide {slide_number} (NO IMAGE): {bullet_count} bullets (MAX: 7) - EXCEEDS by {bullet_count - 7}")
+        if bullet_count > 5:
+            issues.append(f"❌ Slide {slide_number} (NO IMAGE): {bullet_count} bullets (MAX: 5) - EXCEEDS by {bullet_count - 5}")
        
         # Log validation result
         if not issues:
@@ -306,8 +306,8 @@ def validate_single_slide_real_time(slide: Dict[str, Any], slide_number: int) ->
     else:
         if char_count > 650:
             violations.append(f"NO IMAGE but {char_count} chars (max 650)")
-        if bullet_count > 7:
-            violations.append(f"NO IMAGE but {bullet_count} bullets (max 7)")
+        if bullet_count > 5:
+            violations.append(f"NO IMAGE but {bullet_count} bullets (max 5)")
    
     if violations:
         msg = f"❌ Slide {slide_number} VIOLATIONS: {' | '.join(violations)}"
@@ -322,7 +322,7 @@ def auto_fix_slide_content(slide: Dict[str, Any], slide_number: int) -> Tuple[bo
     Automatically fix slide content to comply with limits.
    
     For slides WITH images: enforces max 3 bullets, max 400 chars
-    For slides WITHOUT images: enforces max 7 bullets, max 650 chars
+    For slides WITHOUT images: enforces max 5 bullets, max 650 chars
    
     Args:
         slide: Slide dict (modified in-place)
@@ -347,7 +347,7 @@ def auto_fix_slide_content(slide: Dict[str, Any], slide_number: int) -> Tuple[bo
         max_bullets = 3
     else:
         max_chars = 650
-        max_bullets = 7
+        max_bullets = 5
    
     # Step 1: If too many bullets, truncate to max
     if bullet_count > max_bullets:

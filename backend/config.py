@@ -129,6 +129,17 @@ def get_versioned_pdf_workspace(pdf_basename: str, version_dir: str = None) -> d
     
     # Create versioned folder: projects/base_name/v2/
     pdf_folder = Path("projects") / base_name / version_dir
+    if not pdf_folder.exists():
+        project_root = Path("projects")
+        fallback = None
+        for child in project_root.iterdir():
+            if child.is_dir() and child.name.startswith(base_name):
+                candidate = child / version_dir
+                if candidate.exists():
+                    fallback = candidate
+                    break
+        if fallback:
+            pdf_folder = fallback
     
     paths = {
         "pdf_folder": pdf_folder,
