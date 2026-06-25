@@ -77,12 +77,28 @@ def build_hierarchical_slide_prompt(
     
     template_instructions = ""
     if template_name:
+        template_base = os.path.splitext(template_name)[0]
+        template_json_path = Path("backend/sample_ppt") / f"{template_base}.json"
+        
+        # Check parent folder just in case
+        if not template_json_path.exists():
+            template_json_path = Path("sample_ppt") / f"{template_base}.json"
+            
+        template_layout_info = ""
+        if template_json_path.exists():
+            try:
+                with open(template_json_path, "r", encoding="utf-8") as f:
+                    template_layout_info = f.read()
+            except Exception as e:
+                print(f"Failed to read {template_json_path}: {e}")
+                
         template_instructions = f"""
 TEMPLATE INSTRUCTIONS:
-- Use the selected PowerPoint template: \"{template_name}\"
-- Align the slide title, bullets, and voiceover with the template's layout, style, fonts, and colors
-- Keep the slide structure professional and consistent with the template design
-- Prefer concise, template-friendly text that fits cleanly on the slide
+- Use the selected PowerPoint template: "{template_name}"
+- Below is the JSON mapping of available slide layouts for this template:
+{template_layout_info}
+- You MUST select the most appropriate layout from this JSON based on your content and image needs.
+- Provide the integer `layout_index` of your chosen layout.
 """
 
     # Build available images section
@@ -97,7 +113,7 @@ IMAGE SELECTION RULES:
 - Analyze the slide title and content to determine if an image is relevant
 - Return the image_index (0-based) of the best matching image
 - If no image is appropriate, return null (don't force an irrelevant image)
-- Consider context: Charts for data, diagrams for processes, photos for concepts"""
+- If you select an image, you MUST pick a layout_index that supports a Picture/Image/Object placeholder"""
 
     # ✅ Check if this is the first slide (cover slide)
     is_first_slide = slide_plan_item.slide_number == 1
@@ -110,6 +126,7 @@ IMPORTANT: This is the FIRST SLIDE (cover/title slide).
 - Set content_type to "title"
 - Set content to empty string "" (NO content, NO bullets)
 - Set image_index to null (NO IMAGE on first slide)
+- Set layout_index to the Title layout index (usually 0)
 - Only include the title
 - The voiceover should just be the title repeated once"""
         image_selection_rules = ""  # No image selection for first slide
@@ -158,10 +175,10 @@ CHARACTER COUNTING METHOD:
 - Example: "Bullet one." (11 chars) + "Bullet two." (11 chars) = 22 chars total
 
 4. Content type rules:
-   - "content": Standard single-column text or bullet points.
-   - "two_column": Use for comparing concepts or when you have many bullets that should be split into two columns.
-   - "title": Just title (no content)
-   - "summary": Summarize key points from context (as bullet points)
+   - "single-row": Standard single-column text or bullet points.
+   - "double-row": Use for comparing concepts or when you have many bullets that should be split into two columns.
+   - "content-with-images": Use when an image is selected (`image_index` is not null).
+   - "title": Just title (no content).
 
 5. Bullet content requirements (MANDATORY):
    - Each bullet MUST be a complete, grammatically correct sentence or a short, self-contained phrase that conveys a full idea.
@@ -235,11 +252,12 @@ Return ONLY valid JSON (no markdown, no code blocks):
 {{
   "slide": {{
     "title": "Slide title",
-    "content_type": "content|two_column|title|summary",
+    "content_type": "single-row|double-row|content-with-images|title",
     "content": ["bullet 1", "bullet 2"] or "" for title,
     "voiceover": "Voice-over script starting with title, then detailed explanation of all bullets (4-6 sentences minimum)",
     "image_prompt": "",
-    "image_index": 0 or null
+    "image_index": 0 or null,
+    "layout_index": 0
   }}
 }}
  
@@ -392,10 +410,11 @@ def parse_single_slide_response(response: str) -> Optional[Dict[str, Any]]:
         # Validate and normalize
         slide.setdefault("title", "")
         slide.setdefault("content", "")
-        slide.setdefault("content_type", "content")
+        slide.setdefault("content_type", "single-row")
         slide.setdefault("voiceover", "")
         slide.setdefault("image_prompt", "")
         slide.setdefault("image_index", None)
+        slide.setdefault("layout_index", None)
 
         # ✅ ENFORCE CHARACTER AND BULLET LIMITS ON CONTENT
         has_image = slide.get("image_index") is not None
