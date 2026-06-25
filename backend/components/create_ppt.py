@@ -503,15 +503,16 @@ def split_bullets_into_columns(bullets):
 
 
 def _choose_layout_for_slide(prs, slide_data, content, available_images):
-    ctype = slide_data.get("content_type", "content") or "content"
+    # If LLM explicitly chose a layout index, USE IT directly
+    layout_index = slide_data.get("layout_index")
+    if layout_index is not None and isinstance(layout_index, int) and 0 <= layout_index < len(prs.slide_layouts):
+        print(f"  ✓ Using explicit LLM-chosen layout index: {layout_index}")
+        return prs.slide_layouts[layout_index]
+
+    ctype = slide_data.get("content_type", "single-row") or "single-row"
     image_index = _normalize_image_index(slide_data.get("image_index"))
     available_count = len(available_images) if isinstance(available_images, dict) else 0
-    has_image = (
-        image_index is not None
-        and isinstance(available_images, dict)
-        and 0 <= image_index < available_count
-    )
-    is_image_text = ctype in {"image_text", "image", "visual"}
+    is_image_text = ctype in {"image_text", "image", "visual", "content-with-images"}
 
     if ctype == "title":
         return _get_best_title_layout(prs)
@@ -519,7 +520,7 @@ def _choose_layout_for_slide(prs, slide_data, content, available_images):
         return _get_best_section_header_layout(prs)
     if is_image_text or (image_index is not None):
         return _get_best_image_layout(prs)
-    if ctype == "two_column":
+    if ctype in {"two_column", "double-row"}:
         return _get_best_two_content_layout(prs)
     return _get_best_content_layout(prs)
 
@@ -811,7 +812,7 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
             content_placeholders = _find_text_placeholders(slide.shapes)
             picture_placeholder = _find_picture_placeholder(slide.shapes)
             image_filenames = list(available_images.keys()) if available_images else []
-            needs_image_layout = slide_data.get("content_type") in {"image_text", "image", "visual"} or (image_index is not None)
+            needs_image_layout = slide_data.get("content_type") in {"image_text", "image", "visual", "content-with-images"} or (image_index is not None)
 
             if needs_image_layout:
                 image_filename = image_filenames[image_index] if image_index is not None and 0 <= image_index < len(image_filenames) else None
@@ -856,7 +857,7 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
                     print(f"  ⚠️  Slide {idx}: No picture placeholder found for image slide layout")
 
                 if content_placeholders:
-                    if len(content_placeholders) >= 2 and slide_data.get("content_type") == "two_column":
+                    if len(content_placeholders) >= 2 and slide_data.get("content_type") in {"two_column", "double-row"}:
                         left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
                         add_bullet_list_to_frame(content_placeholders[0].text_frame, left_bullets, shape=content_placeholders[0])
                         add_bullet_list_to_frame(content_placeholders[1].text_frame, right_bullets, shape=content_placeholders[1])
@@ -881,7 +882,7 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
                     )
                     add_bullet_list_to_frame(content_box.text_frame, enforced_chunk, shape=content_box)
             elif content_placeholders:
-                if len(content_placeholders) >= 2 and slide_data.get("content_type") == "two_column":
+                if len(content_placeholders) >= 2 and slide_data.get("content_type") in {"two_column", "double-row"}:
                     left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
                     add_bullet_list_to_frame(content_placeholders[0].text_frame, left_bullets, shape=content_placeholders[0])
                     add_bullet_list_to_frame(content_placeholders[1].text_frame, right_bullets, shape=content_placeholders[1])
@@ -892,7 +893,7 @@ def create_ppt(slides, audio_folder, output_ppt="output_slides.pptx", template_p
                 use_two_columns = (
                     isinstance(enforced_chunk, list)
                     and len(enforced_chunk) > 3
-                    and ctype == "two_column"
+                    and slide_data.get("content_type") in {"two_column", "double-row"}
                 )
                 if use_two_columns:
                     left_bullets, right_bullets = split_bullets_into_columns(enforced_chunk)
