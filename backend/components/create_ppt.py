@@ -344,16 +344,12 @@ def _layout_placeholder_counts(layout):
             counts["title"] += 1
         elif ph_type == PP_PLACEHOLDER.SUBTITLE or "subtitle" in name:
             counts["subtitle"] += 1
-        elif ph_type == PP_PLACEHOLDER.BODY:
-            counts["body"] += 1
-        elif ph_type == PP_PLACEHOLDER.OBJECT:
-            if any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
-                counts["body"] += 1
-            else:
-                counts["object"] += 1
         elif ph_type == PP_PLACEHOLDER.PICTURE or "picture" in name or "image" in name:
             counts["picture"] += 1
-        elif "body" in name or "content" in name or "text" in name:
+        elif ph_type == PP_PLACEHOLDER.BODY or "body" in name or "content" in name or "text" in name:
+            counts["body"] += 1
+        elif ph_type == PP_PLACEHOLDER.OBJECT:
+            counts["object"] += 1
             counts["body"] += 1
     return counts
 
@@ -387,9 +383,7 @@ def _find_content_placeholders(shapes):
             continue
         name = (shape.name or "").lower()
         ph_type = getattr(shape.placeholder_format, "type", None)
-        if ph_type == PP_PLACEHOLDER.BODY:
-            placeholders.append(shape)
-        elif ph_type == PP_PLACEHOLDER.OBJECT and any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
+        if ph_type in (PP_PLACEHOLDER.BODY, PP_PLACEHOLDER.OBJECT):
             placeholders.append(shape)
         elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
             placeholders.append(shape)
@@ -414,9 +408,7 @@ def _find_text_placeholders(shapes):
             continue
         name = (shape.name or "").lower()
         ph_type = getattr(shape.placeholder_format, "type", None)
-        if ph_type == PP_PLACEHOLDER.BODY:
-            placeholders.append(shape)
-        elif ph_type == PP_PLACEHOLDER.OBJECT and any(part in name for part in ["content", "body", "text", "left", "right", "column", "agenda", "caption"]):
+        if ph_type in (PP_PLACEHOLDER.BODY, PP_PLACEHOLDER.OBJECT):
             placeholders.append(shape)
         elif any(part in name for part in ["content", "body", "text", "left", "right", "column"]):
             placeholders.append(shape)
